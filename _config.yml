@@ -1,0 +1,11 @@
+title: "IceUseCaseTesting - TIBER/DORA Bank Purple Team"
+description: "Automatisierte Adversary-Emulation und SIEM-UseCase-Validierung für mittelständische Banken"
+theme: jekyll-theme-hacker
+baseurl: "/IceUseCaseTesting"
+url: "https://icepaule.github.io"
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+plugins:
+  - jekyll-mermaid
