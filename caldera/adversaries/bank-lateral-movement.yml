@@ -1,0 +1,35 @@
+---
+
+id: b4nk-l4tm-0004-dddd-000000000004
+name: TIBER-Bank-Lateral-Movement
+description: |
+  Simuliert Lateral Movement durch ein Banknetzwerk nach initialem Zugriff.
+  Testet Netzwerksegmentierung, AD-Haeretung und Erkennungsfaehigkeiten.
+  Orientiert an Scattered Spider und Volt Typhoon Methoden (Living-off-the-Land).
+  TIBER-EU Szenario: Angreifer bewegt sich von DMZ zu Kernbanksystemen.
+  TTPs: T1018, T1021, T1570, T1548, T1574, T1569.
+atomic_ordering:
+  # Phase 1: Network Reconnaissance
+  - 85341c8c-4ecb-4579-8f53-43e3e91d7617  # ARP Cache Discovery (T1018)
+  - 0360ede1-3c28-48d3-a6ef-6e98f562c5af  # GetComputers - AD enum (T1018)
+  - 638fb6bb-ba39-4285-93d1-7e4775b033a8  # Network Connections (T1049)
+  - 9a30740d-3aa8-4c23-8efa-d51215e8a5b9  # Scan WIFI networks (T1016)
+  - 921055f4-5970-4707-909e-62f594234d91  # Remote Host Ping (T1016)
+  # Phase 2: Credential Harvesting fuer Lateral Movement
+  - 0bff4ee7-42a4-4bde-b09a-9d79d8b9edd7  # Find LSASS (T1057)
+  - 7049e3ec-b822-4fdf-a4ac-18190f9b66d1  # Powerkatz Staged (T1003.001)
+  - 98e58fc4-3843-4511-89b1-50cb872e0c9b  # Credentials in Registry HKLM (T1552.002)
+  # Phase 3: Privilege Escalation
+  - 665432a4-42e7-4ee1-af19-a9a8c9455d0c  # UAC bypass registry (T1548.002)
+  - e3db134c-4aed-4c5a-9607-c50183c9ef9e  # Bypass UAC Medium (T1548.002)
+  - 10681f2f-be03-44af-858d-f2b0812df185  # Weak executable files (T1574.010)
+  # Phase 4: Lateral Movement (mehrere Methoden)
+  - 40161ad0-75bd-11e9-b475-0800200c9a66  # Net use - SMB (T1021.002)
+  - aa6ec4dd-db09-4925-b9b9-43adeb154686  # Mount Share (T1021.002)
+  - 65048ec1-f7ca-49d3-9410-10813e472b30  # Copy Agent via SMB (T1021.002)
+  - 3734aa1e-c536-42b3-8912-4c91b8bdce90  # Copy via PowerShell WinRM (T1021.006)
+  - 41bb2b7a-75af-49fd-bd15-6c827df25921  # Start Agent WinRM (T1021.006)
+  - 10a9d979-e342-418a-a9b0-002c483e0fa6  # Start Agent SSH (T1021.004)
+  - 4908fdc4-74fc-4d7c-8935-26d11ad26a8d  # Copy via WinRM/SCP (T1570)
+  # Phase 5: Service Execution auf Zielsystemen
+  - 95727b87-175c-4a69-8c7a-a5d82746a753  # Service Creation (T1569.002)

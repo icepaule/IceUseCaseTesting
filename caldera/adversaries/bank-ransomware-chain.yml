@@ -1,0 +1,36 @@
+---
+
+id: b4nk-r4ns-0001-aaaa-000000000001
+name: TIBER-Bank-Ransomware-Chain
+description: |
+  Simuliert eine vollstaendige Ransomware-Angriffskette gegen eine mittelstaendische Bank.
+  Orientiert an RansomHub/LockBit/Akira TTPs (2024-2026).
+  Phasen: Reconnaissance → Credential Access → Lateral Movement → Collection → Impact.
+  DORA/TIBER-EU konform. Deckt ab: T1082, T1057, T1003, T1021, T1074, T1486, T1070.
+atomic_ordering:
+  # Phase 1: Discovery & Reconnaissance
+  - 85341c8c-4ecb-4579-8f53-43e3e91d7617  # ARP Cache - Netzwerk-Reconnaissance (T1018)
+  - 638fb6bb-ba39-4285-93d1-7e4775b033a8  # System Network Connections Discovery (T1049)
+  - c1cd6388-3ced-48c7-a511-0434c6ba8f48  # Find local users (T1087.001)
+  - c7ec57cd-933e-42b6-99a4-e852a9e57a33  # Account Discovery - Domain (T1087.002)
+  - 6131397e-7765-424e-a594-3d7fb2d93a6a  # GetDomain - Domaenen-Enumeration (T1482)
+  # Phase 2: Credential Access
+  - 0bff4ee7-42a4-4bde-b09a-9d79d8b9edd7  # Find LSASS Process (T1057)
+  - 0ef4cc7b-611c-4237-b20b-db36b6906554  # Procdump LSASS Memory Dump (T1003.001)
+  - baac2c6d-4652-4b7e-ab0a-f1bf246edd12  # PowerKatz - Mimikatz (T1003.001)
+  - 3aad5312-d48b-4206-9de4-39866c12e60f  # Credentials in Registry HKCU (T1552.002)
+  # Phase 3: Defense Evasion
+  - 43b3754c-def4-4699-a673-1d85648fda6a  # Avoid logs - Clear command history (T1070.003)
+  - 49470433-30ce-4714-a44b-bea9dbbeca9a  # Disable Windows Defender (T1562.001)
+  - fcf71ee3-d1a9-4136-b919-9e5f6da43608  # Clear Event Logs (T1070.001)
+  # Phase 4: Lateral Movement
+  - 65048ec1-f7ca-49d3-9410-10813e472b30  # Copy Sandcat via SMB (T1021.002)
+  - 40161ad0-75bd-11e9-b475-0800200c9a66  # Net use - SMB Share Mount (T1021.002)
+  - 4908fdc4-74fc-4d7c-8935-26d11ad26a8d  # Copy Agent via WinRM/SCP (T1570)
+  # Phase 5: Collection & Staging
+  - 90c2efaa-8205-480d-8bb6-61d90dbaf81b  # Find sensitive files (T1005)
+  - 4e97e699-93d7-4040-b5a3-2e906a58199e  # Stage sensitive files (T1074.001)
+  - 300157e5-f4ad-4569-b533-9d1fa0e74d74  # Compress staged directory (T1560.001)
+  # Phase 6: Impact - Ransomware Simulation
+  - 47d08617-5ce1-424a-8cc5-c9c978ce6bf9  # Leave ransom note (T1491)
+  - 0821b0b0-7902-4a7b-8052-80bda5a43684  # Shutdown Target System (T1499)

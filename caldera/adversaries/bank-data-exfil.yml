@@ -1,0 +1,28 @@
+---
+
+id: b4nk-3xf1-0006-ffff-000000000006
+name: TIBER-Bank-Data-Exfiltration
+description: |
+  Simuliert Datendiebstahl aus einer Bank ueber verschiedene Exfiltrationskan aele.
+  Testet DLP-Kontrollen, Netzwerkueberwachung und Cloud-Monitoring.
+  DORA-relevant: Test der Faehigkeit unautorisierten Datenabfluss zu erkennen.
+  TTPs: T1005, T1119, T1074, T1560, T1041, T1048, T1567, T1029, T1030.
+atomic_ordering:
+  # Phase 1: Daten-Discovery
+  - 90c2efaa-8205-480d-8bb6-61d90dbaf81b  # Find sensitive files (T1005)
+  - 1f7ff232-ebf8-42bf-a3c4-657855794cfe  # Find company emails (T1005)
+  - d69e8660-62c9-431e-87eb-8cf6bd4e35cf  # Find IP addresses (T1005)
+  - 720a3356-eee1-4015-9135-0fc08f7eb2d5  # Find Git Repositories (T1005)
+  - 10fad81e-3f68-47be-83b6-fbee7711c6a9  # Advanced File Search & Stager (T1119)
+  # Phase 2: Staging
+  - 6469befa-748a-4b9c-a96d-f191fde47d89  # Create staging directory (T1074.001)
+  - 4e97e699-93d7-4040-b5a3-2e906a58199e  # Stage files (T1074.001)
+  - 300157e5-f4ad-4569-b533-9d1fa0e74d74  # Compress staged (T1560.001)
+  - 30a8cf10-73dc-497c-8261-a64cc9e91505  # Compress password-protected (T1560.001)
+  - 5c5b0392-1daa-45e1-967c-2f361ce78849  # Split into chunks (T1030)
+  # Phase 3: Exfiltration ueber verschiedene Kanaele
+  - ea713bc4-63f0-491c-9a6f-0b01d560b87e  # Exfil staged directory C2 (T1041)
+  - d754878c-17dd-46dc-891c-a993f8a10336  # Exfil to FTP (T1048.003)
+  - 0582dc26-e0cf-4645-88cf-f37a02279976  # Exfil to GitHub Gist (T1567.001)
+  - 4a1120a5-971c-457f-bb07-60641b4723fd  # Exfil to GitHub Repo (T1567.001)
+  - 110cea7a-5b03-4443-92ee-7ccefaead451  # Scheduled Exfiltration (T1029)

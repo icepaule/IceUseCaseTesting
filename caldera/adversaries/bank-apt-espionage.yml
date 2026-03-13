@@ -1,0 +1,37 @@
+---
+
+id: b4nk-4pt3-0002-bbbb-000000000002
+name: TIBER-Bank-APT-Espionage
+description: |
+  Simuliert einen staatlich gestuetzten APT-Angriff auf eine Bank (Lazarus/APT43-Muster).
+  Fokus auf langfristige Persistenz, stille Datenexfiltration und Credential Harvesting.
+  Deckt TIBER-EU Szenarien fuer Wirtschaftsspionage und Finanzdatendiebstahl ab.
+  TTPs: T1053, T1003, T1005, T1074, T1560, T1041, T1567, T1071.
+atomic_ordering:
+  # Phase 1: System Reconnaissance (leise, unauffaellig)
+  - 1258b063-27d6-489b-a677-4807faacf868  # Check Security Services - Sandbox Detection (T1497.001)
+  - 7a6ba833-de40-466a-8969-5c37b13603e0  # Check analysis environment (T1497.001)
+  - 36eecb80-ede3-442b-8774-956e906aff02  # 1-min sleep - Anti-Sandbox Timing (T1497.003)
+  # Phase 2: Deep Discovery
+  - c1cd6388-3ced-48c7-a511-0434c6ba8f48  # Find local users (T1087.001)
+  - c7ec57cd-933e-42b6-99a4-e852a9e57a33  # Domain Account Discovery (T1087.002)
+  - 6131397e-7765-424e-a594-3d7fb2d93a6a  # GetDomain Trust Discovery (T1482)
+  - 0360ede1-3c28-48d3-a6ef-6e98f562c5af  # GetComputers - AD Computer Enum (T1018)
+  - 638fb6bb-ba39-4285-93d1-7e4775b033a8  # Network Connections Discovery (T1049)
+  # Phase 3: Credential Theft (APT-Stil: mehrere Methoden)
+  - 0bff4ee7-42a4-4bde-b09a-9d79d8b9edd7  # Find LSASS (T1057)
+  - 3c647015-ab0a-496a-8847-6ab173cd2b22  # MiniDumpWriteDump - Spooky (T1003)
+  - 422526ec-27e9-429a-995b-c686a29561a4  # Dump command history (T1552.003)
+  - de632c2d-a729-4b77-b781-6a6b09c148ba  # Find SSH private keys (T1552.004)
+  - 1b4fb81c-8090-426c-93ab-0a633e7a16a7  # Sniff network traffic (T1040)
+  # Phase 4: Persistence
+  - 0cd686c7-8d70-434e-a20c-2fc58f51a51a  # Cron job persistence root (T1053.003)
+  - 831d5b9d-7867-4bca-98f5-bc235445614c  # Cron job persistence user (T1053.003)
+  # Phase 5: Collection & Exfiltration
+  - 1f7ff232-ebf8-42bf-a3c4-657855794cfe  # Find company emails (T1005)
+  - 720a3356-eee1-4015-9135-0fc08f7eb2d5  # Find Git Repositories (T1005)
+  - 10fad81e-3f68-47be-83b6-fbee7711c6a9  # Advanced File Search & Stager (T1119)
+  - 6469befa-748a-4b9c-a96d-f191fde47d89  # Create staging directory (T1074.001)
+  - 4e97e699-93d7-4040-b5a3-2e906a58199e  # Stage sensitive files (T1074.001)
+  - 30a8cf10-73dc-497c-8261-a64cc9e91505  # Compress with password (T1560.001)
+  - ea713bc4-63f0-491c-9a6f-0b01d560b87e  # Exfil staged directory (T1041)

@@ -1,0 +1,80 @@
+technique_id,technique_name,tactic,severity,bank_relevance,siem_usecase_id,siem_usecase_name,dora_article,tiber_phase,description_de
+T1003,OS Credential Dumping,credential-access,critical,sehr_hoch,UC-BANK-001,Credential Dumping Detection,Art.25,Active-Phase,Erkennung von LSASS-Memory-Dumps und Credential-Harvesting
+T1003.001,LSASS Memory,credential-access,critical,sehr_hoch,UC-BANK-001,Credential Dumping Detection,Art.25,Active-Phase,LSASS Prozess-Memory-Dump via Procdump oder Mimikatz
+T1003.003,NTDS,credential-access,critical,sehr_hoch,UC-BANK-001,Credential Dumping Detection,Art.25,Active-Phase,Active Directory NTDS.dit Extraktion
+T1005,Data from Local System,collection,high,hoch,UC-BANK-010,Sensitive Data Access,Art.25,Active-Phase,Zugriff auf lokale sensible Dateien
+T1016,System Network Configuration,discovery,medium,mittel,UC-BANK-003,Network Reconnaissance,Art.25,Recon-Phase,Netzwerkkonfigurations-Enumeration
+T1018,Remote System Discovery,discovery,medium,hoch,UC-BANK-003,Network Reconnaissance,Art.25,Recon-Phase,Erkennung von Netzwerk-Scanning und Host-Discovery
+T1021,Remote Services,lateral-movement,high,sehr_hoch,UC-BANK-004,Lateral Movement Detection,Art.25,Active-Phase,Nutzung von Remote-Services fuer Lateral Movement
+T1021.002,SMB/Windows Admin Shares,lateral-movement,high,sehr_hoch,UC-BANK-004,Lateral Movement Detection,Art.25,Active-Phase,SMB-basiertes Lateral Movement
+T1021.004,SSH,lateral-movement,high,hoch,UC-BANK-004,Lateral Movement Detection,Art.25,Active-Phase,SSH-basiertes Lateral Movement
+T1021.006,Windows Remote Management,lateral-movement,high,sehr_hoch,UC-BANK-004,Lateral Movement Detection,Art.25,Active-Phase,WinRM-basiertes Lateral Movement
+T1027,Obfuscated Files,defense-evasion,high,hoch,UC-BANK-007,Defense Evasion Detection,Art.25,Active-Phase,Verschleierte Dateien oder Informationen
+T1029,Scheduled Transfer,exfiltration,high,sehr_hoch,UC-BANK-006,Data Exfiltration Detection,Art.25,Active-Phase,Geplante automatische Datenuebertragung
+T1030,Data Transfer Size Limits,exfiltration,high,hoch,UC-BANK-006,Data Exfiltration Detection,Art.25,Active-Phase,Aufgeteilte Datenexfiltration in kleinen Stuecken
+T1036,Masquerading,defense-evasion,high,hoch,UC-BANK-007,Defense Evasion Detection,Art.25,Active-Phase,Tarnung als legitimer Prozess oder Datei
+T1040,Network Sniffing,credential-access,high,sehr_hoch,UC-BANK-001,Credential Dumping Detection,Art.25,Active-Phase,Netzwerk-Traffic-Sniffing fuer Credential-Theft
+T1041,Exfiltration Over C2,exfiltration,critical,sehr_hoch,UC-BANK-006,Data Exfiltration Detection,Art.25,Active-Phase,Datenexfiltration ueber C2-Kanal
+T1047,WMI,execution,high,hoch,UC-BANK-005,Suspicious Execution,Art.25,Active-Phase,Windows Management Instrumentation Ausfuehrung
+T1048,Exfiltration Over Alternative Protocol,exfiltration,critical,sehr_hoch,UC-BANK-006,Data Exfiltration Detection,Art.25,Active-Phase,Exfiltration ueber alternativen Protokollkanal
+T1048.003,Exfiltration Over Unencrypted Non-C2,exfiltration,critical,sehr_hoch,UC-BANK-006,Data Exfiltration Detection,Art.25,Active-Phase,Exfiltration ueber FTP oder andere unverschluesselte Protokolle
+T1049,System Network Connections,discovery,medium,mittel,UC-BANK-003,Network Reconnaissance,Art.25,Recon-Phase,Aktive Netzwerkverbindungen auflisten
+T1053,Scheduled Task/Job,persistence,high,hoch,UC-BANK-008,Persistence Detection,Art.25,Active-Phase,Persistenz via geplante Aufgaben
+T1053.003,Cron,persistence,high,hoch,UC-BANK-008,Persistence Detection,Art.25,Active-Phase,Linux Cron-Job Persistenz
+T1055,Process Injection,defense-evasion,critical,sehr_hoch,UC-BANK-007,Defense Evasion Detection,Art.25,Active-Phase,Code-Injection in laufende Prozesse
+T1055.001,DLL Injection,defense-evasion,critical,sehr_hoch,UC-BANK-007,Defense Evasion Detection,Art.25,Active-Phase,DLL-Injection via SignedBinary
+T1055.002,PE Injection,defense-evasion,critical,sehr_hoch,UC-BANK-007,Defense Evasion Detection,Art.25,Active-Phase,Portable Executable Injection
+T1057,Process Discovery,discovery,low,mittel,UC-BANK-003,Network Reconnaissance,Art.25,Recon-Phase,Prozess-Auflistung und LSASS-Suche
+T1059,Command and Scripting Interpreter,execution,high,hoch,UC-BANK-005,Suspicious Execution,Art.25,Active-Phase,Ausfuehrung von Befehlen und Scripts
+T1059.001,PowerShell,execution,high,sehr_hoch,UC-BANK-005,Suspicious Execution,Art.25,Active-Phase,PowerShell-basierte Ausfuehrung
+T1070,Indicator Removal,defense-evasion,critical,sehr_hoch,UC-BANK-009,Log Tampering Detection,Art.25,Active-Phase,Loeschung von Indikatoren und Spuren
+T1070.001,Clear Windows Event Logs,defense-evasion,critical,sehr_hoch,UC-BANK-009,Log Tampering Detection,Art.25,Active-Phase,Loeschung von Windows Event Logs
+T1070.003,Clear Command History,defense-evasion,high,hoch,UC-BANK-009,Log Tampering Detection,Art.25,Active-Phase,Loeschung der Befehlshistorie
+T1070.004,File Deletion,defense-evasion,medium,mittel,UC-BANK-009,Log Tampering Detection,Art.25,Active-Phase,Loeschung von Artefakten und Dateien
+T1071,Application Layer Protocol,command-and-control,high,hoch,UC-BANK-011,C2 Communication Detection,Art.25,Active-Phase,C2-Kommunikation ueber Anwendungsprotokolle
+T1071.001,Web Protocols,command-and-control,high,hoch,UC-BANK-011,C2 Communication Detection,Art.25,Active-Phase,HTTP/HTTPS-basierte C2-Kommunikation
+T1074,Data Staged,collection,high,hoch,UC-BANK-010,Sensitive Data Access,Art.25,Active-Phase,Daten-Staging vor Exfiltration
+T1074.001,Local Data Staging,collection,high,hoch,UC-BANK-010,Sensitive Data Access,Art.25,Active-Phase,Lokales Sammeln von Daten in Staging-Verzeichnissen
+T1082,System Information Discovery,discovery,low,mittel,UC-BANK-003,Network Reconnaissance,Art.25,Recon-Phase,System-Informationssammlung
+T1083,File and Directory Discovery,discovery,low,mittel,UC-BANK-003,Network Reconnaissance,Art.25,Recon-Phase,Dateisystem-Enumeration
+T1087,Account Discovery,discovery,medium,hoch,UC-BANK-003,Network Reconnaissance,Art.25,Recon-Phase,Benutzerkonten-Enumeration
+T1087.001,Local Account,discovery,medium,hoch,UC-BANK-003,Network Reconnaissance,Art.25,Recon-Phase,Lokale Konten-Enumeration
+T1087.002,Domain Account,discovery,medium,sehr_hoch,UC-BANK-003,Network Reconnaissance,Art.25,Recon-Phase,Domain-Konten-Enumeration
+T1105,Ingress Tool Transfer,command-and-control,high,hoch,UC-BANK-011,C2 Communication Detection,Art.25,Active-Phase,Download von Tools auf Zielsystem
+T1113,Screen Capture,collection,medium,hoch,UC-BANK-010,Sensitive Data Access,Art.25,Active-Phase,Bildschirmaufnahme
+T1115,Clipboard Data,collection,medium,hoch,UC-BANK-010,Sensitive Data Access,Art.25,Active-Phase,Clipboard-Daten abgreifen
+T1119,Automated Collection,collection,high,sehr_hoch,UC-BANK-010,Sensitive Data Access,Art.25,Active-Phase,Automatisierte Datensammlung
+T1134,Access Token Manipulation,privilege-escalation,high,hoch,UC-BANK-002,Privilege Escalation Detection,Art.25,Active-Phase,Token-Manipulation fuer erhoehte Rechte
+T1136,Create Account,persistence,high,sehr_hoch,UC-BANK-008,Persistence Detection,Art.25,Active-Phase,Erstellung neuer Benutzerkonten
+T1486,Data Encrypted for Impact,impact,critical,sehr_hoch,UC-BANK-012,Ransomware Detection,Art.25,Active-Phase,Ransomware-Verschluesselung
+T1489,Service Stop,impact,high,hoch,UC-BANK-012,Ransomware Detection,Art.25,Active-Phase,Stoppen kritischer Dienste
+T1491,Defacement,impact,medium,mittel,UC-BANK-012,Ransomware Detection,Art.25,Active-Phase,Hinterlassen von Ransomware-Nachrichten
+T1496,Resource Hijacking,impact,medium,mittel,UC-BANK-013,Crypto Mining Detection,Art.25,Active-Phase,Crypto-Mining auf Bankinfrastruktur
+T1497,Virtualization/Sandbox Evasion,defense-evasion,medium,mittel,UC-BANK-007,Defense Evasion Detection,Art.25,Active-Phase,Sandbox-Erkennung und Umgehung
+T1497.001,System Checks,defense-evasion,medium,mittel,UC-BANK-007,Defense Evasion Detection,Art.25,Active-Phase,Systemchecks zur Sandbox-Erkennung
+T1497.003,Time Based Evasion,defense-evasion,medium,mittel,UC-BANK-007,Defense Evasion Detection,Art.25,Active-Phase,Zeitbasierte Analyse-Umgehung
+T1499,Endpoint DoS,impact,high,hoch,UC-BANK-014,System Impact Detection,Art.25,Active-Phase,System-Shutdown oder DoS
+T1543,Create or Modify System Process,persistence,high,hoch,UC-BANK-008,Persistence Detection,Art.25,Active-Phase,System-Service-Manipulation
+T1543.003,Windows Service,persistence,high,hoch,UC-BANK-008,Persistence Detection,Art.25,Active-Phase,Erstellung schadhafter Windows-Services
+T1548,Abuse Elevation Control,privilege-escalation,critical,sehr_hoch,UC-BANK-002,Privilege Escalation Detection,Art.25,Active-Phase,UAC-Bypass und Rechteeskalation
+T1548.002,Bypass UAC,privilege-escalation,critical,sehr_hoch,UC-BANK-002,Privilege Escalation Detection,Art.25,Active-Phase,User Account Control Umgehung
+T1552,Unsecured Credentials,credential-access,high,sehr_hoch,UC-BANK-001,Credential Dumping Detection,Art.25,Active-Phase,Ungesicherte Credentials in Dateien/Registry
+T1552.002,Credentials in Registry,credential-access,high,hoch,UC-BANK-001,Credential Dumping Detection,Art.25,Active-Phase,Credentials aus Windows Registry
+T1552.003,Bash History,credential-access,medium,mittel,UC-BANK-001,Credential Dumping Detection,Art.25,Active-Phase,Credentials aus Befehlshistorie
+T1552.004,Private Keys,credential-access,critical,sehr_hoch,UC-BANK-001,Credential Dumping Detection,Art.25,Active-Phase,SSH Private Keys und Zertifikate
+T1560,Archive Collected Data,collection,high,hoch,UC-BANK-010,Sensitive Data Access,Art.25,Active-Phase,Komprimierung gesammelter Daten
+T1560.001,Archive via Utility,collection,high,hoch,UC-BANK-010,Sensitive Data Access,Art.25,Active-Phase,Archivierung mit Standard-Tools
+T1562,Impair Defenses,defense-evasion,critical,sehr_hoch,UC-BANK-007,Defense Evasion Detection,Art.25,Active-Phase,Deaktivierung von Sicherheitsmechanismen
+T1562.001,Disable or Modify Tools,defense-evasion,critical,sehr_hoch,UC-BANK-007,Defense Evasion Detection,Art.25,Active-Phase,Deaktivierung von AV/EDR
+T1565,Data Manipulation,impact,critical,sehr_hoch,UC-BANK-014,System Impact Detection,Art.25,Active-Phase,Manipulation von Geschaeftsdaten
+T1565.001,Stored Data Manipulation,impact,critical,sehr_hoch,UC-BANK-014,System Impact Detection,Art.25,Active-Phase,Manipulation gespeicherter Daten
+T1567,Exfiltration Over Web Service,exfiltration,high,sehr_hoch,UC-BANK-006,Data Exfiltration Detection,Art.25,Active-Phase,Exfiltration ueber Webdienste
+T1567.001,Exfiltration to Code Repository,exfiltration,high,sehr_hoch,UC-BANK-006,Data Exfiltration Detection,Art.25,Active-Phase,Exfiltration zu GitHub/GitLab
+T1567.002,Exfiltration to Cloud Storage,exfiltration,high,sehr_hoch,UC-BANK-006,Data Exfiltration Detection,Art.25,Active-Phase,Exfiltration zu Cloud Storage
+T1569,System Services,execution,high,hoch,UC-BANK-005,Suspicious Execution,Art.25,Active-Phase,Ausfuehrung via System-Services
+T1569.002,Service Execution,execution,high,hoch,UC-BANK-005,Suspicious Execution,Art.25,Active-Phase,Ausfuehrung via Service-Erstellung
+T1574,Hijack Execution Flow,privilege-escalation,high,hoch,UC-BANK-002,Privilege Escalation Detection,Art.25,Active-Phase,DLL Hijacking und Execution Flow
+T1574.010,Services File Permissions Weakness,privilege-escalation,high,hoch,UC-BANK-002,Privilege Escalation Detection,Art.25,Active-Phase,Schwache Service-Binary-Berechtigungen
+T1482,Domain Trust Discovery,discovery,medium,sehr_hoch,UC-BANK-003,Network Reconnaissance,Art.25,Recon-Phase,Domain Trust Enumeration
+T1537,Transfer to Cloud Account,exfiltration,high,hoch,UC-BANK-006,Data Exfiltration Detection,Art.25,Active-Phase,Exfiltration zu Cloud-Accounts
+T1657,Financial Theft,impact,critical,sehr_hoch,UC-BANK-015,Financial Fraud Detection,Art.25,Active-Phase,Direkter Finanzdiebstahl und Transaktionsbetrug

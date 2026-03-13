@@ -1,0 +1,30 @@
+---
+
+id: b4nk-3v4s-0005-eeee-000000000005
+name: TIBER-Bank-Defense-Evasion
+description: |
+  Testet die Erkennungsfaehigkeit der Bank-SIEM-Infrastruktur.
+  Simuliert einen Angreifer der aktiv versucht Sicherheitskontrollen zu umgehen.
+  Relevant fuer DORA Art. 25 - Testen der Erkennungs- und Reaktionsfaehigkeit.
+  TTPs: T1562, T1070, T1055, T1497, T1036, T1027.
+atomic_ordering:
+  # Phase 1: Sandbox/Analysis Detection
+  - 1258b063-27d6-489b-a677-4807faacf868  # Check Security Services (T1497.001)
+  - 7a6ba833-de40-466a-8969-5c37b13603e0  # Check analysis environment (T1497.001)
+  - 36eecb80-ede3-442b-8774-956e906aff02  # 1-min sleep timing (T1497.003)
+  # Phase 2: Security Tool Deaktivierung
+  - 49470433-30ce-4714-a44b-bea9dbbeca9a  # Disable Defender Real-Time (T1562.001)
+  - b007f6e8-4a87-4440-8888-29ceab047d9b  # Disable Defender All (T1562.001)
+  - 3864fd22-5c63-41c9-bdbc-a66b5ffa3f5e  # Bypass ExecutionPolicy (T1562.001)
+  # Phase 3: Process Injection
+  - 05cda6f6-2b1b-462e-bff1-845af94343f7  # Discover injectable process (T1057)
+  - a398986f-31b0-436a-87e9-c8e82c028f3c  # Inject Sandcat into process (T1055.002)
+  - a74bc239-a196-4f7e-8d5c-fe8c0266071c  # Signed Binary - odbcconf (T1055.001)
+  - e5bcefee-262d-4568-a261-e8a20855ec81  # Signed Binary - Mavinject (T1055.002)
+  # Phase 4: Indicator Removal
+  - 43b3754c-def4-4699-a673-1d85648fda6a  # Avoid logs - Clear history (T1070.003)
+  - fcf71ee3-d1a9-4136-b919-9e5f6da43608  # Clear Event Logs (T1070.001)
+  - 4cd4eb44-29a7-4259-91ae-e457b283a880  # Delete payload artifacts (T1070.004)
+  - 5f844ac9-5f24-4196-a70d-17f0bd44a934  # Deadman - Delete agent (T1070.004)
+  # Phase 5: Execution Obfuscation
+  - e5f9de8f-3df1-4e78-ad92-a784e3f6770d  # Move PowerShell & triage (T1059.001)

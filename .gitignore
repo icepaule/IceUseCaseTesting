@@ -1,0 +1,19 @@
+# Sensitive Konfiguration
+.env
+*.key
+*.pem
+credentials.*
+local.yml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Logs
+*.log
+/logs/

@@ -1,0 +1,27 @@
+---
+
+id: b4nk-1ns1-0003-cccc-000000000003
+name: TIBER-Bank-Insider-Threat
+description: |
+  Simuliert einen boesartigen Insider in einer Bank mit legitimem Zugang.
+  Fokus auf Datensammlung, Staging und Exfiltration ohne Privilege Escalation.
+  Relevant fuer DORA Art. 26 - Bedrohungen durch autorisierte Benutzer.
+  TTPs: T1005, T1039, T1074, T1113, T1115, T1560, T1567, T1048.
+atomic_ordering:
+  # Phase 1: Interne Aufklaerung mit legitimen Mitteln
+  - c1cd6388-3ced-48c7-a511-0434c6ba8f48  # Find local users (T1087.001)
+  - 52177cc1-b9ab-4411-ac21-2eadc4b5d3b8  # List Directory - Dateisystem-Browse (T1083)
+  - 90c2efaa-8205-480d-8bb6-61d90dbaf81b  # Find sensitive files (T1005)
+  - d69e8660-62c9-431e-87eb-8cf6bd4e35cf  # Find IP addresses in files (T1005)
+  - 1f7ff232-ebf8-42bf-a3c4-657855794cfe  # Find company emails (T1005)
+  - 720a3356-eee1-4015-9135-0fc08f7eb2d5  # Find Git Repositories (T1005)
+  # Phase 2: Datensammlung
+  - 316251ed-6a28-4013-812b-ddf5b5b007f8  # Screen Capture (T1113)
+  - b007fe0c-c6b0-4fda-915c-255bbc070de2  # Copy Clipboard (T1115)
+  - 89955f55-529d-4d58-bed4-fed9e42515ec  # cURL socket address (T1005)
+  # Phase 3: Staging & Exfiltration
+  - 6469befa-748a-4b9c-a96d-f191fde47d89  # Create staging directory (T1074.001)
+  - 4e97e699-93d7-4040-b5a3-2e906a58199e  # Stage sensitive files (T1074.001)
+  - 30a8cf10-73dc-497c-8261-a64cc9e91505  # Compress Password Protected (T1560.001)
+  - 5c5b0392-1daa-45e1-967c-2f361ce78849  # Split into chunks (T1030)
+  - d754878c-17dd-46dc-891c-a993f8a10336  # Exfil to FTP (T1048.003)
