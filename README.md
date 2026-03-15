@@ -79,6 +79,24 @@ graph LR
 - **BAIT** Abschnitt 5: IT-Sicherheitsmanagement
 - **DSGVO** Art. 33: Meldepflichten
 
+## Splunkbase App
+
+Die Splunk-App kann direkt als Paket installiert werden:
+
+```bash
+# Download und Installation
+tar -xzf splunkbase/caldera_bank_siem-1.0.0.tar.gz -C $SPLUNK_HOME/etc/apps/
+$SPLUNK_HOME/bin/splunk restart
+```
+
+**Enthaltene Komponenten:**
+- 15 SIEM Correlation Rules (Saved Searches)
+- Purple Team Dashboard mit KPIs, MITRE Heatmap, Kill Chain Timeline
+- MITRE ATT&CK Lookup (63 Techniken, DORA-Mapping)
+- Vorkonfigurierte Indexes und Sourcetypes
+
+Das Paket liegt unter [`splunkbase/caldera_bank_siem-1.0.0.tar.gz`](splunkbase/caldera_bank_siem-1.0.0.tar.gz).
+
 ## Lizenz
 
 Dieses Projekt dient ausschließlich zu Bildungs- und Testzwecken in autorisierten Umgebungen.

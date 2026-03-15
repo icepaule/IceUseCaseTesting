@@ -78,6 +78,17 @@ Dieses Framework stellt ein vollständiges **Purple Team Testing Setup** bereit,
 
 ---
 
+## Splunkbase App
+
+Die Splunk-App ist als fertiges Paket verfügbar: [`caldera_bank_siem-1.0.0.tar.gz`](splunkbase/caldera_bank_siem-1.0.0.tar.gz)
+
+- 15 SIEM Correlation Rules
+- Purple Team Dashboard (KPIs, MITRE Heatmap, Kill Chain Timeline, DORA Compliance)
+- MITRE ATT&CK Lookup mit 63 Techniken und DORA-Mapping
+- Vorkonfigurierte Indexes und Sourcetypes
+
+---
+
 ## Quick Start
 
 ```bash
