@@ -6,11 +6,11 @@
 set -euo pipefail
 
 # --- Configuration ---
-CALDERA_SERVER="${CALDERA_SERVER:-10.99.0.10}"
+CALDERA_SERVER="${CALDERA_SERVER:-<CALDERA_HOST>}"
 CALDERA_PORT="${CALDERA_PORT:-8888}"
 CALDERA_URL="http://${CALDERA_SERVER}:${CALDERA_PORT}"
 CALDERA_API="${CALDERA_URL}/api/v2"
-CALDERA_API_KEY="${CALDERA_API_KEY:-Z_qZ-H_tO46ponEmcXpSg8JcySRzG9EMFg71Ojgy3VQ}"
+CALDERA_API_KEY="${CALDERA_API_KEY:-<API_KEY>}"
 DEFAULT_GROUP="claude"
 AGENT_CHECK_RETRIES=12
 AGENT_CHECK_INTERVAL=5
@@ -55,17 +55,17 @@ ${BOLD}OPTIONS:${NC}
 
 ${BOLD}EXAMPLES:${NC}
   # Deploy to a single host
-  ${SCRIPT_NAME} -t 10.99.0.20 -u Administrator -p 'P@ssw0rd'
+  ${SCRIPT_NAME} -t <DC_HOST>0 -u Administrator -p 'P@ssw0rd'
 
   # Deploy to a single host in a custom group
-  ${SCRIPT_NAME} -t 10.99.0.20 -u Administrator -p 'P@ssw0rd' -g banking
+  ${SCRIPT_NAME} -t <DC_HOST>0 -u Administrator -p 'P@ssw0rd' -g banking
 
   # Deploy to multiple hosts from a file
   ${SCRIPT_NAME} -f targets.txt -g red-team
 
   # targets.txt format (one host per line):
-  #   10.99.0.20,Administrator,P@ssw0rd
-  #   10.99.0.21,admin,Secret123!
+  #   <DC_HOST>0,Administrator,P@ssw0rd
+  #   <DC_HOST>1,admin,Secret123!
 
 ${BOLD}PREREQUISITES:${NC}
   - Python 3 with pywinrm:  pip install pywinrm

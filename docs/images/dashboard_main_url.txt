@@ -1,0 +1,2 @@
+Screenshot URL: http://10.10.0.66:8000/app/caldera_bank_siem/bank_purple_team
+Capture with: firefox --screenshot dashboard_main.png http://10.10.0.66:8000/app/caldera_bank_siem/bank_purple_team

@@ -1,0 +1,24 @@
+graph TB
+    CS[Caldera v5.0] --> AP[16 Adversary Profile]
+    AP --> BP[Batch Planner]
+    BP -->|Sandcat| DC[DC-Test01 Win]
+    BP -->|Sandcat| W11[WIN11-TEST01]
+    BP -->|Sandcat| UB[ubuntu-test-01]
+    BP -->|Sandcat| RH[rhel9-test01]
+    CS -->|publish-to-splunk.sh| HEC[Splunk HEC]
+    HEC --> IDX[Indexer]
+    IDX --> I1[(caldera Index)]
+    IDX --> SS[113 Saved Searches]
+    SS --> I2[(siem_summary)]
+    SS --> DASH[Dashboard]
+    DASH --> DRILL[UseCase Detail]
+    SS --> COMP[Compliance Alert]
+    COMP --> EMAIL[Email Alert]
+    style CS fill:#e74c3c,color:#fff
+    style DASH fill:#2ecc71,color:#fff
+    style COMP fill:#f39c12,color:#fff
+    style DC fill:#3498db,color:#fff
+    style W11 fill:#3498db,color:#fff
+    style UB fill:#e67e22,color:#fff
+    style RH fill:#e67e22,color:#fff
+    style EMAIL fill:#e74c3c,color:#fff

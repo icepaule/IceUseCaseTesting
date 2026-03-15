@@ -7,7 +7,7 @@ set -euo pipefail
 
 # --- Configuration ---
 CALDERA_PORT="${CALDERA_PORT:-8888}"
-CALDERA_API_KEY="${CALDERA_API_KEY:-Z_qZ-H_tO46ponEmcXpSg8JcySRzG9EMFg71Ojgy3VQ}"
+CALDERA_API_KEY="${CALDERA_API_KEY:-<API_KEY>}"
 REMOTE_INSTALL_DIR="/opt/caldera-agent"
 REMOTE_BINARY="sandcat.exe"
 AGENT_PROCESS_NAME="sandcat.exe"

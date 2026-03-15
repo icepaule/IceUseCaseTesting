@@ -1,0 +1,539 @@
+<dashboard version="1.1" theme="dark">
+  <label>TIBER/DORA Bank Purple Team - Caldera Testauswertung</label>
+  <description>Uebersicht aller Caldera-Testcases, MITRE ATT&amp;CK Mapping, Artefakte und SIEM-UseCase-Trigger fuer mittelstaendische Bank. Stand 2025/2026.</description>
+
+  <!-- ================================================================== -->
+  <!-- ROW 1: KPI Panels - Ueberblick -->
+  <!-- ================================================================== -->
+  <row>
+    <panel>
+      <title>Ausgefuehrte Testcases</title>
+      <single>
+        <search>
+          <query>index=caldera sourcetype="caldera:command:enriched" | stats dc(operation_name) as testcases</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="drilldown">all</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="underLabel">Operationen (24h)</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Gesammelte Artefakte</title>
+      <single>
+        <search>
+          <query>index=caldera sourcetype="caldera:command:enriched" | stats count as total_artifacts</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="underLabel">Command-Artefakte (24h)</option>
+        <option name="useColors">1</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+      </single>
+    </panel>
+    <panel>
+      <title>SIEM UseCases getriggert</title>
+      <single>
+        <search>
+          <query>index=siem_summary sourcetype="siem:usecase:triggered" | stats dc(usecase_id) as triggered_usecases</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="rangeColors">["0xdc4e41","0xf1813f","0xf8be34","0x0877a6","0x53a051"]</option>
+        <option name="rangeValues">[3,6,9,12]</option>
+        <option name="underLabel">von 15 UseCases (24h)</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Kill Chains erkannt</title>
+      <single>
+        <search>
+          <query>index=siem_summary sourcetype="siem:usecase:killchain" | stats count as killchains</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="rangeColors">["0x53a051","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="rangeValues">[0,1,3]</option>
+        <option name="underLabel">Korrelierte Angriffsketten</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+    <panel>
+      <title>MITRE Techniken abgedeckt</title>
+      <single>
+        <search>
+          <query>index=caldera sourcetype="caldera:command:enriched" | stats dc(technique_id) as techniques</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="underLabel">Unique Techniques (24h)</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+  </row>
+
+  <!-- ================================================================== -->
+  <!-- ROW 2: Testcase-Uebersicht mit SIEM-UseCase-Matching -->
+  <!-- ================================================================== -->
+  <row>
+    <panel>
+      <title>Testcases mit MITRE ATT&amp;CK und SIEM-UseCase Zuordnung</title>
+      <table>
+        <search>
+          <query>index=caldera sourcetype="caldera:command:enriched"
+| lookup mitre_attack_bank_mapping technique_id OUTPUT technique_name tactic severity bank_relevance siem_usecase_id siem_usecase_name dora_article tiber_phase description_de
+| stats
+    count as artefakt_count
+    values(technique_id) as mitre_techniques
+    values(technique_name) as mitre_technique_names
+    values(tactic) as mitre_tactics
+    values(siem_usecase_id) as siem_usecases
+    values(siem_usecase_name) as siem_usecase_names
+    values(severity) as max_severity
+    values(dora_article) as dora_referenz
+    values(tiber_phase) as tiber_phasen
+    by operation_name
+| join type=left operation_name
+    [search index=siem_summary sourcetype="siem:usecase:triggered"
+     | stats dc(usecase_id) as triggered_count values(usecase_id) as triggered_usecases by operation_name]
+| eval siem_triggered=if(isnotnull(triggered_count), triggered_count, 0)
+| eval detection_rate=round(siem_triggered/mvcount(siem_usecases)*100, 1)."%"
+| eval status=case(siem_triggered=0, "KEINE ERKENNUNG", siem_triggered&lt;mvcount(siem_usecases), "TEILWEISE ERKANNT", siem_triggered&gt;=mvcount(siem_usecases), "VOLLSTAENDIG ERKANNT")
+| sort - artefakt_count
+| table operation_name artefakt_count mitre_techniques mitre_tactics siem_usecases siem_usecase_names siem_triggered detection_rate status dora_referenz tiber_phasen max_severity
+| rename operation_name as "Testcase/Operation"
+    artefakt_count as "Artefakte"
+    mitre_techniques as "MITRE Technique IDs"
+    mitre_tactics as "MITRE Tactics"
+    siem_usecases as "Zugeordnete SIEM UseCases"
+    siem_usecase_names as "UseCase Namen"
+    siem_triggered as "UseCases getriggert"
+    detection_rate as "Erkennungsrate"
+    status as "Erkennungsstatus"
+    dora_referenz as "DORA Referenz"
+    tiber_phasen as "TIBER Phase"
+    max_severity as "Schweregrad"</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="count">20</option>
+        <option name="drilldown">row</option>
+        <option name="wrap">true</option>
+        <format type="color" field="Erkennungsstatus">
+          <colorPalette type="map">{"KEINE ERKENNUNG":#DC4E41,"TEILWEISE ERKANNT":#F8BE34,"VOLLSTAENDIG ERKANNT":#53A051}</colorPalette>
+        </format>
+        <format type="color" field="Schweregrad">
+          <colorPalette type="map">{"critical":#DC4E41,"high":#F1813F,"medium":#F8BE34,"low":#53A051}</colorPalette>
+        </format>
+        <drilldown>
+          <link target="_blank">/app/caldera_bank_siem/usecase_detail?usecase_id=$row.Zugeordnete SIEM UseCases$</link>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+
+  <!-- ROW 2b: Compliance KPIs -->
+  <row>
+    <panel>
+      <title>Compliance: Gesamt</title>
+      <single>
+        <search>
+          <query>| inputlookup mitre_attack_bank_mapping.csv | stats dc(siem_usecase_id) as total</query>
+        </search>
+        <option name="underLabel">Definierte UseCases</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Compliance: PASSED</title>
+      <single>
+        <search>
+          <query>| inputlookup mitre_attack_bank_mapping.csv
+| stats dc(siem_usecase_id) as total values(siem_usecase_id) as all_ucs
+| mvexpand all_ucs
+| rename all_ucs as usecase_id
+| join type=left usecase_id
+    [search index=siem_summary sourcetype="siem:usecase:triggered" earliest=-24h latest=now | stats count as c by usecase_id]
+| eval passed=if(c>0,1,0)
+| stats sum(passed) as passed</query>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="rangeColors">["0xdc4e41","0x53a051"]</option>
+        <option name="rangeValues">[0]</option>
+        <option name="underLabel">UseCases PASSED (24h)</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Compliance: FAILED</title>
+      <single>
+        <search>
+          <query>| inputlookup mitre_attack_bank_mapping.csv
+| stats values(siem_usecase_id) as all_ucs
+| mvexpand all_ucs
+| rename all_ucs as usecase_id
+| join type=left usecase_id
+    [search index=siem_summary sourcetype="siem:usecase:triggered" earliest=-24h latest=now | stats count as c by usecase_id]
+| eval failed=if(isnotnull(c) AND c>0, 0, 1)
+| stats sum(failed) as failed</query>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="rangeColors">["0x53a051","0xdc4e41"]</option>
+        <option name="rangeValues">[0]</option>
+        <option name="underLabel">UseCases FAILED (24h)</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Compliance Rate</title>
+      <single>
+        <search>
+          <query>| inputlookup mitre_attack_bank_mapping.csv
+| stats values(siem_usecase_id) as all_ucs
+| mvexpand all_ucs
+| rename all_ucs as usecase_id
+| join type=left usecase_id
+    [search index=siem_summary sourcetype="siem:usecase:triggered" earliest=-24h latest=now | stats count as c by usecase_id]
+| eval passed=if(c>0,1,0)
+| stats sum(passed) as p count as t
+| eval rate=round(p/t*100,1)."%"
+| fields rate</query>
+        </search>
+        <option name="underLabel">Erkennungsrate (24h)</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+  </row>
+
+  <!-- ================================================================== -->
+  <!-- ROW 3: MITRE ATT&CK Heatmap + SIEM UseCase Status -->
+  <!-- ================================================================== -->
+  <row>
+    <panel>
+      <title>MITRE ATT&amp;CK Taktik-Heatmap (Testabdeckung)</title>
+      <chart>
+        <search>
+          <query>index=caldera sourcetype="caldera:command:enriched"
+| lookup mitre_attack_bank_mapping technique_id OUTPUT tactic severity
+| stats count as events dc(technique_id) as techniques by tactic
+| sort - events
+| eval tactic_order=case(
+    tactic="discovery",1,
+    tactic="credential-access",2,
+    tactic="execution",3,
+    tactic="persistence",4,
+    tactic="privilege-escalation",5,
+    tactic="defense-evasion",6,
+    tactic="lateral-movement",7,
+    tactic="collection",8,
+    tactic="exfiltration",9,
+    tactic="command-and-control",10,
+    tactic="impact",11,
+    1=1, 99)
+| sort tactic_order
+| table tactic events techniques</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="charting.chart">bar</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.legend.placement">bottom</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>SIEM UseCase Trigger-Status</title>
+      <table>
+        <search>
+          <query>| inputlookup mitre_attack_bank_mapping.csv
+| stats dc(technique_id) as mapped_techniques values(severity) as severities by siem_usecase_id siem_usecase_name
+| join type=left siem_usecase_id
+    [search index=siem_summary sourcetype="siem:usecase:triggered"
+     | stats count as trigger_count latest(_time) as last_triggered by usecase_id
+     | rename usecase_id as siem_usecase_id]
+| eval trigger_count=if(isnotnull(trigger_count), trigger_count, 0)
+| eval last_triggered=if(isnotnull(last_triggered), strftime(last_triggered, "%Y-%m-%d %H:%M"), "Nie")
+| eval status=if(trigger_count>0, "PASSED", "FAILED")
+| sort siem_usecase_id
+| table siem_usecase_id siem_usecase_name mapped_techniques trigger_count last_triggered status severities
+| rename siem_usecase_id as "UseCase ID"
+    siem_usecase_name as "UseCase Name"
+    mapped_techniques as "MITRE Techniken"
+    trigger_count as "Trigger-Anzahl"
+    last_triggered as "Letzter Trigger"
+    status as "Status"
+    severities as "Schweregrad"</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="count">20</option>
+        <option name="drilldown">row</option>
+        <format type="color" field="Status">
+          <colorPalette type="map">{"PASSED":#53A051,"FAILED":#DC4E41}</colorPalette>
+        </format>
+        <drilldown>
+          <link target="_blank">/app/caldera_bank_siem/usecase_detail?usecase_id=$row.UseCase ID$</link>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+
+  <!-- ================================================================== -->
+  <!-- ROW 4: Artefakt-Detail-Ansicht -->
+  <!-- ================================================================== -->
+  <row>
+    <panel>
+      <title>Artefakte je Testcase - Detail mit SIEM-UseCase-Match</title>
+      <table>
+        <search>
+          <query>index=caldera sourcetype="caldera:command:enriched"
+| lookup mitre_attack_bank_mapping technique_id OUTPUT technique_name tactic severity siem_usecase_id siem_usecase_name description_de
+| eval artifact_type=case(
+    match(command_decoded, "(?i)(mimikatz|procdump|lsass|sekurlsa|credential|password|ntds)"), "Credential Artifact",
+    match(command_decoded, "(?i)(net\s+use|psexec|winrm|ssh|wmic|smbclient|mount)"), "Lateral Movement Artifact",
+    match(command_decoded, "(?i)(reg\s+query|reg\s+add|schtasks|cron|service|persist)"), "Persistence Artifact",
+    match(command_decoded, "(?i)(compress|archive|zip|tar|7z|rar|staging|exfil|curl|ftp|upload)"), "Exfiltration Artifact",
+    match(command_decoded, "(?i)(defender|disable|bypass|inject|hollowing|evasion|wevtutil|clear-eventlog)"), "Evasion Artifact",
+    match(command_decoded, "(?i)(whoami|ipconfig|ifconfig|netstat|arp|nslookup|net\s+user|systeminfo|tasklist)"), "Discovery Artifact",
+    match(command_decoded, "(?i)(encrypt|ransom|shutdown|kill|stop-service|del\s+/|rm\s+-rf)"), "Impact Artifact",
+    match(command_decoded, "(?i)(screen|clipboard|keylog|capture|record)"), "Collection Artifact",
+    1=1, "Other Artifact")
+| eval siem_match=if(isnotnull(siem_usecase_id), "JA: ".siem_usecase_id." - ".siem_usecase_name, "KEIN MATCH")
+| sort _time
+| table _time operation_name ability_name technique_id technique_name tactic artifact_type command_decoded siem_match severity description_de
+| rename _time as "Zeitstempel"
+    operation_name as "Testcase"
+    ability_name as "Ability"
+    technique_id as "MITRE ID"
+    technique_name as "MITRE Technique"
+    tactic as "Taktik"
+    artifact_type as "Artefakt-Typ"
+    command_decoded as "Ausgefuehrter Befehl"
+    siem_match as "SIEM UseCase Match"
+    severity as "Schweregrad"
+    description_de as "Beschreibung"</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="count">50</option>
+        <option name="drilldown">row</option>
+        <option name="wrap">true</option>
+        <format type="color" field="SIEM UseCase Match">
+          <colorPalette type="map">{"KEIN MATCH":#DC4E41}</colorPalette>
+        </format>
+        <format type="color" field="Schweregrad">
+          <colorPalette type="map">{"critical":#DC4E41,"high":#F1813F,"medium":#F8BE34,"low":#53A051}</colorPalette>
+        </format>
+      </table>
+    </panel>
+  </row>
+
+  <!-- ================================================================== -->
+  <!-- ROW 5: Kill Chain Timeline + Adversary Profile Mapping -->
+  <!-- ================================================================== -->
+  <row>
+    <panel>
+      <title>Kill Chain Timeline - Angriffsphasen ueber Zeit</title>
+      <chart>
+        <search>
+          <query>index=caldera sourcetype="caldera:command:enriched"
+| lookup mitre_attack_bank_mapping technique_id OUTPUT tactic severity
+| eval kill_chain_phase=case(
+    tactic="discovery" OR tactic="reconnaissance", "1-Reconnaissance",
+    tactic="credential-access", "2-Credential Access",
+    tactic="privilege-escalation", "3-Privilege Escalation",
+    tactic="defense-evasion", "4-Defense Evasion",
+    tactic="lateral-movement", "5-Lateral Movement",
+    tactic="execution", "6-Execution",
+    tactic="persistence", "7-Persistence",
+    tactic="collection", "8-Collection",
+    tactic="exfiltration" OR tactic="command-and-control", "9-Exfiltration/C2",
+    tactic="impact", "10-Impact",
+    1=1, "99-Unknown")
+| timechart span=5m count by kill_chain_phase</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="charting.chart">area</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.legend.placement">right</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+      </chart>
+    </panel>
+    <panel>
+      <title>Adversary-Profil Auswertung</title>
+      <table>
+        <search>
+          <query>index=caldera sourcetype="caldera:command:enriched"
+| lookup mitre_attack_bank_mapping technique_id OUTPUT tactic severity siem_usecase_id
+| eval profile=case(
+    match(operation_name, "(?i)ransomware"), "TIBER-Bank-Ransomware",
+    match(operation_name, "(?i)apt|espionage"), "TIBER-Bank-APT-Espionage",
+    match(operation_name, "(?i)insider"), "TIBER-Bank-Insider-Threat",
+    match(operation_name, "(?i)lateral"), "TIBER-Bank-Lateral-Movement",
+    match(operation_name, "(?i)evasion|defense"), "TIBER-Bank-Defense-Evasion",
+    match(operation_name, "(?i)exfil"), "TIBER-Bank-Data-Exfiltration",
+    1=1, operation_name)
+| stats
+    count as total_commands
+    dc(technique_id) as unique_techniques
+    dc(tactic) as tactics_covered
+    dc(siem_usecase_id) as usecases_matched
+    values(tactic) as all_tactics
+    latest(_time) as last_run
+    by profile
+| eval last_run=strftime(last_run, "%Y-%m-%d %H:%M")
+| sort - total_commands
+| table profile total_commands unique_techniques tactics_covered usecases_matched all_tactics last_run
+| rename profile as "Adversary-Profil"
+    total_commands as "Befehle"
+    unique_techniques as "MITRE Techniken"
+    tactics_covered as "Taktiken"
+    usecases_matched as "SIEM Matches"
+    all_tactics as "Abgedeckte Taktiken"
+    last_run as "Letzter Lauf"</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="count">10</option>
+        <option name="drilldown">row</option>
+      </table>
+    </panel>
+  </row>
+
+  <!-- ================================================================== -->
+  <!-- ROW 6: DORA/TIBER Compliance Uebersicht -->
+  <!-- ================================================================== -->
+  <row>
+    <panel>
+      <title>DORA/TIBER-EU Compliance - Testabdeckung</title>
+      <table>
+        <search>
+          <query>| inputlookup mitre_attack_bank_mapping.csv
+| stats dc(technique_id) as techniques values(siem_usecase_id) as usecases by dora_article tiber_phase
+| join type=left dora_article
+    [search index=caldera sourcetype="caldera:command:enriched"
+     | lookup mitre_attack_bank_mapping technique_id OUTPUT dora_article
+     | stats dc(technique_id) as tested_techniques count as test_events by dora_article]
+| eval tested_techniques=if(isnotnull(tested_techniques), tested_techniques, 0)
+| eval test_events=if(isnotnull(test_events), test_events, 0)
+| eval coverage=round(tested_techniques/techniques*100, 1)."%"
+| eval status=case(tested_techniques=0, "NICHT GETESTET", tested_techniques&lt;techniques, "TEILWEISE", tested_techniques&gt;=techniques, "VOLLSTAENDIG")
+| table dora_article tiber_phase techniques tested_techniques coverage test_events status
+| rename dora_article as "DORA Artikel"
+    tiber_phase as "TIBER Phase"
+    techniques as "Definierte Techniken"
+    tested_techniques as "Getestete Techniken"
+    coverage as "Abdeckung"
+    test_events as "Test-Events"
+    status as "Status"</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="count">20</option>
+        <format type="color" field="Status">
+          <colorPalette type="map">{"NICHT GETESTET":#DC4E41,"TEILWEISE":#F8BE34,"VOLLSTAENDIG":#53A051}</colorPalette>
+        </format>
+      </table>
+    </panel>
+    <panel>
+      <title>Erkennungsluecken - Unerkannte Techniken</title>
+      <table>
+        <search>
+          <query>index=caldera sourcetype="caldera:command:enriched"
+| lookup mitre_attack_bank_mapping technique_id OUTPUT technique_name tactic severity siem_usecase_id siem_usecase_name
+| search NOT
+    [search index=siem_summary sourcetype="siem:usecase:triggered"
+     | stats count by technique_id
+     | fields technique_id]
+| stats count as undetected_events values(ability_name) as abilities by technique_id technique_name tactic severity
+| where isnotnull(technique_id)
+| sort - severity undetected_events
+| table technique_id technique_name tactic severity undetected_events abilities
+| rename technique_id as "MITRE ID"
+    technique_name as "Technik"
+    tactic as "Taktik"
+    severity as "Schweregrad"
+    undetected_events as "Unerkannte Events"
+    abilities as "Betroffene Abilities"</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="count">20</option>
+        <format type="color" field="Schweregrad">
+          <colorPalette type="map">{"critical":#DC4E41,"high":#F1813F,"medium":#F8BE34,"low":#53A051}</colorPalette>
+        </format>
+      </table>
+    </panel>
+  </row>
+
+  <!-- ================================================================== -->
+  <!-- ROW 7: Detaillierte SIEM UseCase Trigger-Historie -->
+  <!-- ================================================================== -->
+  <row>
+    <panel>
+      <title>SIEM UseCase Trigger-Historie (Timeline)</title>
+      <chart>
+        <search>
+          <query>index=siem_summary sourcetype="siem:usecase:triggered"
+| timechart span=10m count by usecase_id</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="charting.chart">column</option>
+        <option name="charting.chart.stackMode">stacked</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.legend.placement">bottom</option>
+      </chart>
+    </panel>
+  </row>
+
+  <!-- ================================================================== -->
+  <!-- ROW 8: Agent-Status und Testinfrastruktur -->
+  <!-- ================================================================== -->
+  <row>
+    <panel>
+      <title>Caldera Agent Status</title>
+      <table>
+        <search>
+          <query>index=caldera sourcetype="caldera:agent"
+| spath
+| stats latest(trusted) as trusted latest(last_seen) as last_seen values(platform) as platform values(host) as hostname by paw
+| eval status=if(trusted="true", "ONLINE", "OFFLINE")
+| eval last_seen=strftime(strptime(last_seen, "%Y-%m-%dT%H:%M:%SZ"), "%Y-%m-%d %H:%M")
+| table paw hostname platform status last_seen
+| rename paw as "Agent ID" hostname as "Hostname" platform as "Plattform" status as "Status" last_seen as "Zuletzt gesehen"</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="count">20</option>
+        <format type="color" field="Status">
+          <colorPalette type="map">{"ONLINE":#53A051,"OFFLINE":#DC4E41}</colorPalette>
+        </format>
+      </table>
+    </panel>
+    <panel>
+      <title>Schweregrad-Verteilung der erkannten Techniken</title>
+      <chart>
+        <search>
+          <query>index=caldera sourcetype="caldera:command:enriched"
+| lookup mitre_attack_bank_mapping technique_id OUTPUT severity
+| stats count by severity
+| sort - count</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.chart.showPercent">1</option>
+        <option name="charting.drilldown">all</option>
+        <option name="charting.chart.sliceCollapsingThreshold">0.01</option>
+      </chart>
+    </panel>
+  </row>
+</dashboard>

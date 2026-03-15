@@ -1,0 +1,33 @@
+---
+
+id: b4nk-p3rs-0050-eeee-000000000050
+name: Bank-Persistence-Advanced
+description: 'Advanced persistence simulation for banking APT detection.
+
+  Covers: Scheduled tasks, registry run keys, services, DLL hijacking,
+
+  COM hijacking, startup folders, WMI subscriptions, account creation.
+
+  MITRE ATT&CK: T1037-T1574. DORA Art.25 - Tests long-term compromise detection.'
+atomic_ordering:
+- 831d5b9d-7867-4bca-98f5-bc235445614c
+- 0cd686c7-8d70-434e-a20c-2fc58f51a51a
+- 44d82f6f-f367-4db7-aa65-a9e5717b1a21
+- f6d72009-d093-461a-986c-e1ab9b04db51
+- 236d1357-64f9-4a98-afc1-bccaa89aba8c
+- 0864a91a-ae17-1cce-8b89-d4f8f2854699
+- 6af29018-9779-49aa-ad8e-66627a23f329
+- c90bbb6c-f9bd-4811-b7b7-c923902a8bde
+- 52771610-2322-44cf-816b-a7df42b4c086
+- 04cf7962-28c4-40fb-8915-1fd632393a6f
+- 7aaecfb7-a1eb-477c-8d53-ab3009389623
+- 82d61362-0f60-45d9-a3e1-26ec20cb3387
+- 5ceb5fd63b2cea41b66395f610aed024
+- f39aace719f4cdcf8569001f7a25aabf
+- c93df79781db0a1ed7cc34323f2ecec0
+- 5542d8580c8a1380595d61f8c4095031
+- 05e196af93cbb6b7a572cd3daf30ad66
+- 6ec6561b-e535-4fe3-9c20-a52e5982b513
+- afb8d8f7-d059-4825-95ae-c5727e2db320
+- 43aad2d6-d16a-4adb-aa2b-9510a3be4c52
+- 6dd62c1c-b65c-4e28-b241-04121cbbc9af

@@ -4,6 +4,13 @@
 *.pem
 credentials.*
 local.yml
+**/conf/local.yml
+**/conf/default.yml
+**/secrets/
+*.secret
+
+# License strings - never publish
+# Any file containing DEVLICENSE must be scrubbed
 
 # OS
 .DS_Store

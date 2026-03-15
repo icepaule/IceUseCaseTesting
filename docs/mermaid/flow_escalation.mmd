@@ -1,0 +1,28 @@
+graph TD
+    DET[SIEM UseCase Triggered] --> SEV{Schweregrad}
+    SEV -->|CRITICAL| T1[Sofort-Triage 15min]
+    SEV -->|HIGH| T2[Triage 1 Stunde]
+    SEV -->|MEDIUM| T3[SOC L1 Analyse]
+    T1 --> KC{Kill Chain?}
+    KC -->|Ja| ESC1[CSIRT Aktivierung]
+    KC -->|Nein| ESC2[SOC L2 Analyse]
+    T2 --> ESC2
+    T3 --> FP2{Bestaetigt?}
+    FP2 -->|Ja| ESC2
+    FP2 -->|Nein| CLOSE[Ticket schliessen]
+    ESC1 --> ISO[Systemisolierung]
+    ISO --> BAFIN{Meldepflichtig DORA Art.19}
+    BAFIN -->|Ja| MELD[BaFin Meldung 4h]
+    BAFIN -->|Nein| DOK[Interne Dokumentation]
+    MELD --> EZB[EZB TIBER Bericht]
+    ESC2 --> FP{False Positive?}
+    FP -->|Ja| TUNE[Rule Tuning]
+    FP -->|Nein| REM[Remediation]
+    EZB --> POST[Post-Incident Review]
+    REM --> POST
+    POST --> RPT[DORA Art.26 TLPT Report]
+    style ESC1 fill:#e74c3c,color:#fff
+    style MELD fill:#e74c3c,color:#fff
+    style EZB fill:#c0392b,color:#fff
+    style CLOSE fill:#2ecc71,color:#fff
+    style RPT fill:#8e44ad,color:#fff

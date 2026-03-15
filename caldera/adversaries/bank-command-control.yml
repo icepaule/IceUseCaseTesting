@@ -1,0 +1,32 @@
+---
+
+id: b4nk-c2c2-0100-dddd-000000000100
+name: Bank-Command-Control-Advanced
+description: 'Advanced C2 technique simulation for banking network monitoring.
+
+  Covers: DNS tunneling, HTTP/HTTPS, encoding, proxy usage,
+
+  ingress tool transfer, protocol tunneling, remote access tools.
+
+  MITRE ATT&CK: T1071-T1572. DORA Art.25 - Tests network monitoring/IDS.'
+atomic_ordering:
+- bda00f459bb9118c4c88de426055e180
+- 6e214f0f17e5d4988aa1085ad4291f46
+- ef2c951840423ba90c208867dcf89c87
+- 5fd6b6b635191898a202dc7c21aa6068
+- 69b202bf0bb7b4ff43d4abb8867c1784
+- 45f462c09f28d5b0819af7b1ed0913e1
+- eb814e03-811a-467a-bc6d-dcd453750fa2
+- 60f63260-39bb-4136-87a0-b6c2dca799fc
+- 36ee81903cf3f729dfa31344b85b94c7
+- 810ebb2d039e78c1017dcb5efbd4a074
+- 2f58053a0b7f76ab83218a7748642330
+- f96e8195-8b0f-4b87-bdce-748dfda2861f
+- b0eb5108debf92ed5707a964b2bf3481
+- c3a35a15ca98fb18620f619be9efcd25
+- d46a661387d0060563351848360cb3e5
+- 7f734143338de2b02093a703f919e7fc
+- 61b95a301ba6041fd362f24da535c724
+- d5c3d4d3a33600ba963db53932e355f7
+- bd6226bd86cbcd3e083f997194d66372
+- 7e3a8de9-edb9-4df4-beef-9577c4562420

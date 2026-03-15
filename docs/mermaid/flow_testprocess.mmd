@@ -1,0 +1,26 @@
+graph TD
+    START([Cron Trigger<br/>02:00 / 10:00 / 18:00]) --> CHK{Agents<br/>aktiv?}
+    CHK -->|Nein| ALERT_AGENT[Alert: Keine Agents<br/>Email an Admin]
+    CHK -->|Ja| RUN[16 Adversary-Profile<br/>starten]
+    RUN --> WAIT[Warte max 30min<br/>auf Abschluss]
+    WAIT --> STOP[Operationen<br/>stoppen]
+    STOP --> PUB[publish-to-splunk.sh<br/>MITRE Enrichment<br/>HEC Upload]
+    PUB --> DELAY[Warte 5min fuer<br/>Saved Search Cycle]
+    DELAY --> QUERY[Splunk abfragen:<br/>Welche UseCases<br/>getriggert?]
+    QUERY --> EVAL{Alle 111<br/>UseCases<br/>PASSED?}
+    EVAL -->|Ja| OK[Compliance OK<br/>Status: PASSED<br/>Rate: 100%]
+    EVAL -->|Nein| FAIL[FAILED UseCases<br/>identifizieren]
+    FAIL --> MAIL[Alert-Email senden<br/>an alert@example.com]
+    MAIL --> JSON[compliance-status.json<br/>aktualisieren]
+    JSON --> DASH[Dashboard<br/>PASSED/FAILED<br/>markieren]
+    OK --> JSON2[compliance-status.json<br/>aktualisieren]
+    JSON2 --> END([Ende])
+    DASH --> END
+
+    style START fill:#3498db,color:#fff
+    style ALERT_AGENT fill:#e74c3c,color:#fff
+    style OK fill:#2ecc71,color:#fff
+    style FAIL fill:#e74c3c,color:#fff
+    style MAIL fill:#f39c12,color:#fff
+    style DASH fill:#2ecc71,color:#fff
+    style END fill:#95a5a6,color:#fff

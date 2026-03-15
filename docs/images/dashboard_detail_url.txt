@@ -1,0 +1,2 @@
+Screenshot URL: http://10.10.0.66:8000/app/caldera_bank_siem/usecase_detail
+Capture with: firefox --screenshot dashboard_detail.png http://10.10.0.66:8000/app/caldera_bank_siem/usecase_detail

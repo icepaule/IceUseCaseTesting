@@ -1,0 +1,233 @@
+<form version="1.1" theme="dark">
+  <label>UseCase Detail - Drilldown</label>
+  <description>Detailansicht: Welcher Test hat welchen UseCase getriggert (oder nicht). Troubleshooting-Ansicht.</description>
+
+  <fieldset submitButton="false">
+    <input type="text" token="usecase_id">
+      <label>UseCase ID</label>
+      <default>UC-BANK-001</default>
+    </input>
+    <input type="time" token="time_range">
+      <label>Zeitraum</label>
+      <default>
+        <earliest>-24h@h</earliest>
+        <latest>now</latest>
+      </default>
+    </input>
+  </fieldset>
+
+  <!-- ROW 1: UseCase Metadaten -->
+  <row>
+    <panel>
+      <title>UseCase Informationen: $usecase_id$</title>
+      <table>
+        <search>
+          <query>| inputlookup mitre_attack_bank_mapping.csv
+| search siem_usecase_id="$usecase_id$"
+| stats
+    values(siem_usecase_name) as name
+    values(technique_id) as techniques
+    values(technique_name) as technique_names
+    values(tactic) as tactics
+    values(severity) as severity
+    values(dora_article) as dora
+    values(tiber_phase) as tiber
+    values(description_de) as beschreibung
+    by siem_usecase_id
+| rename siem_usecase_id as "UseCase ID"
+    name as "Name"
+    techniques as "MITRE Techniques"
+    technique_names as "Technique Namen"
+    tactics as "Taktiken"
+    severity as "Schweregrad"
+    dora as "DORA Artikel"
+    tiber as "TIBER Phase"
+    beschreibung as "Beschreibung"</query>
+        </search>
+        <option name="count">1</option>
+        <option name="drilldown">none</option>
+        <option name="wrap">true</option>
+        <format type="color" field="Schweregrad">
+          <colorPalette type="map">{"critical":#DC4E41,"high":#F1813F,"medium":#F8BE34,"low":#53A051}</colorPalette>
+        </format>
+      </table>
+    </panel>
+  </row>
+
+  <!-- ROW 2: Status KPIs -->
+  <row>
+    <panel>
+      <title>Trigger-Anzahl (24h)</title>
+      <single>
+        <search>
+          <query>index=siem_summary sourcetype="siem:usecase:triggered" usecase_id="$usecase_id$" earliest=-24h latest=now
+| stats count as c</query>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="rangeColors">["0xdc4e41","0x53a051"]</option>
+        <option name="rangeValues">[0]</option>
+        <option name="underLabel">Triggers in 24h</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Compliance Status</title>
+      <single>
+        <search>
+          <query>index=siem_summary sourcetype="siem:usecase:triggered" usecase_id="$usecase_id$" earliest=-24h latest=now
+| stats count as c
+| eval status=if(c>0, "PASSED", "FAILED")
+| fields status</query>
+        </search>
+        <option name="colorBy">value</option>
+        <option name="colorMode">block</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Letzter Trigger</title>
+      <single>
+        <search>
+          <query>index=siem_summary sourcetype="siem:usecase:triggered" usecase_id="$usecase_id$" earliest=-7d latest=now
+| stats latest(_time) as lt
+| eval lt=if(isnotnull(lt), strftime(lt, "%Y-%m-%d %H:%M:%S"), "Nie getriggert")
+| fields lt</query>
+        </search>
+        <option name="underLabel">Letzter Trigger-Zeitpunkt</option>
+      </single>
+    </panel>
+    <panel>
+      <title>Test-Ausfuehrungen</title>
+      <single>
+        <search>
+          <query>index=caldera sourcetype="caldera:command:enriched"
+| lookup mitre_attack_bank_mapping technique_id OUTPUT siem_usecase_id
+| search siem_usecase_id="$usecase_id$"
+| stats count as c</query>
+          <earliest>$time_range.earliest$</earliest>
+          <latest>$time_range.latest$</latest>
+        </search>
+        <option name="underLabel">Caldera Commands</option>
+      </single>
+    </panel>
+  </row>
+
+  <!-- ROW 3: Exakte Test-Ausfuehrungen mit Befehlen -->
+  <row>
+    <panel>
+      <title>Caldera Test-Befehle fuer $usecase_id$ - Detailansicht</title>
+      <table>
+        <search>
+          <query>index=caldera sourcetype="caldera:command:enriched"
+| lookup mitre_attack_bank_mapping technique_id OUTPUT siem_usecase_id siem_usecase_name technique_name tactic severity
+| search siem_usecase_id="$usecase_id$"
+| eval cmd_preview=if(len(command_decoded)>200, substr(command_decoded,1,200)."...", command_decoded)
+| eval triggered="Pruefe unten"
+| sort - _time
+| table _time operation_name host paw ability_name technique_id technique_name cmd_preview
+| rename _time as "Zeitstempel"
+    operation_name as "Operation"
+    host as "Host"
+    paw as "Agent"
+    ability_name as "Ability (Test)"
+    technique_id as "MITRE ID"
+    technique_name as "MITRE Technik"
+    cmd_preview as "Ausgefuehrter Befehl"</query>
+          <earliest>$time_range.earliest$</earliest>
+          <latest>$time_range.latest$</latest>
+        </search>
+        <option name="count">100</option>
+        <option name="drilldown">none</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+
+  <!-- ROW 4: SIEM Trigger Events -->
+  <row>
+    <panel>
+      <title>SIEM Trigger-Events fuer $usecase_id$</title>
+      <table>
+        <search>
+          <query>index=siem_summary sourcetype="siem:usecase:triggered" usecase_id="$usecase_id$"
+| sort - _time
+| table _time operation_name host technique_id usecase_name alert_severity bank_risk dora_reference
+| rename _time as "Zeitstempel"
+    operation_name as "Operation"
+    host as "Host"
+    technique_id as "MITRE ID"
+    usecase_name as "UseCase"
+    alert_severity as "Schweregrad"
+    bank_risk as "Bank-Risiko"
+    dora_reference as "DORA Referenz"</query>
+          <earliest>$time_range.earliest$</earliest>
+          <latest>$time_range.latest$</latest>
+        </search>
+        <option name="count">50</option>
+        <option name="wrap">true</option>
+        <format type="color" field="Schweregrad">
+          <colorPalette type="map">{"critical":#DC4E41,"high":#F1813F,"medium":#F8BE34,"low":#53A051}</colorPalette>
+        </format>
+      </table>
+    </panel>
+  </row>
+
+  <!-- ROW 5: Trigger-Historie 7 Tage -->
+  <row>
+    <panel>
+      <title>Trigger-Verlauf ueber 7 Tage - $usecase_id$</title>
+      <chart>
+        <search>
+          <query>index=siem_summary sourcetype="siem:usecase:triggered" usecase_id="$usecase_id$"
+| timechart span=1h count as "Trigger"</query>
+          <earliest>-7d@d</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="charting.chart">column</option>
+        <option name="charting.chart.nullValueMode">zero</option>
+        <option name="charting.axisTitleX.text">Zeit</option>
+        <option name="charting.axisTitleY.text">Trigger-Anzahl</option>
+      </chart>
+    </panel>
+  </row>
+
+  <!-- ROW 6: Vergleich: Welche Techniken getestet vs getriggert -->
+  <row>
+    <panel>
+      <title>Abgleich: Getestet vs. Erkannt fuer $usecase_id$</title>
+      <table>
+        <search>
+          <query>| inputlookup mitre_attack_bank_mapping.csv
+| search siem_usecase_id="$usecase_id$"
+| fields technique_id technique_name
+| join type=left technique_id
+    [search index=caldera sourcetype="caldera:command:enriched" earliest=-24h latest=now
+     | stats count as test_count dc(host) as hosts values(ability_name) as abilities values(command_decoded) as commands by technique_id]
+| join type=left technique_id
+    [search index=siem_summary sourcetype="siem:usecase:triggered" earliest=-24h latest=now
+     | stats count as trigger_count by technique_id]
+| eval test_count=if(isnotnull(test_count), test_count, 0)
+| eval trigger_count=if(isnotnull(trigger_count), trigger_count, 0)
+| eval status=case(
+    test_count=0 AND trigger_count=0, "NICHT GETESTET",
+    test_count>0 AND trigger_count=0, "GETESTET - NICHT ERKANNT",
+    test_count>0 AND trigger_count>0, "GETESTET + ERKANNT",
+    test_count=0 AND trigger_count>0, "ERKANNT (ohne expliz. Test)")
+| table technique_id technique_name test_count trigger_count hosts abilities status
+| rename technique_id as "MITRE ID"
+    technique_name as "Technik"
+    test_count as "Test-Events"
+    trigger_count as "Trigger-Events"
+    hosts as "Getestete Hosts"
+    abilities as "Caldera Abilities"
+    status as "Status"</query>
+        </search>
+        <option name="count">50</option>
+        <option name="wrap">true</option>
+        <format type="color" field="Status">
+          <colorPalette type="map">{"NICHT GETESTET":#999999,"GETESTET - NICHT ERKANNT":#DC4E41,"GETESTET + ERKANNT":#53A051,"ERKANNT (ohne expliz. Test)":#F8BE34}</colorPalette>
+        </format>
+      </table>
+    </panel>
+  </row>
+</form>

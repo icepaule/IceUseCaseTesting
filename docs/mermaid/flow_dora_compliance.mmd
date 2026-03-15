@@ -1,0 +1,65 @@
+graph LR
+    subgraph "DORA Verordnung<br/>EU 2022/2554"
+        A9[Art. 9<br/>Netzwerkschutz]
+        A10[Art. 10<br/>Anomalieerkennung]
+        A11[Art. 11<br/>IKT-Risikomanagement]
+        A12[Art. 12<br/>Logging/Audit]
+        A13[Art. 13<br/>Zugangskontrollen]
+        A17[Art. 17<br/>IKT-Vorfaelle]
+        A19[Art. 19<br/>Meldepflicht]
+        A25[Art. 25<br/>Resilienz-Testing]
+        A26[Art. 26<br/>TLPT]
+    end
+
+    subgraph "SIEM Use Cases"
+        UC001[UC-BANK-001..008<br/>Credential Access]
+        UC020[UC-BANK-020..024<br/>Privilege Escalation]
+        UC030[UC-BANK-030..034<br/>Lateral Movement]
+        UC040[UC-BANK-040..059<br/>Defense Evasion]
+        UC060[UC-BANK-060..079<br/>Discovery]
+        UC080[UC-BANK-080..087<br/>Execution]
+        UC090[UC-BANK-090..098<br/>Persistence]
+        UC100[UC-BANK-100..106<br/>Exfiltration]
+        UC110[UC-BANK-110..119<br/>Collection]
+        UC120[UC-BANK-120..125<br/>C2]
+        UC130[UC-BANK-130..142<br/>Impact/Initial Access]
+        UC999[UC-BANK-999<br/>Kill Chain Correlation]
+    end
+
+    subgraph "Testnachweis"
+        T1[188 MITRE<br/>Technique Mappings]
+        T2[16 Adversary<br/>Profile]
+        T3[3x taeglich<br/>automatisiert]
+        T4[Compliance<br/>Dashboard]
+        T5[ITSO Report]
+    end
+
+    A9 --> UC030
+    A10 --> UC040
+    A10 --> UC999
+    A11 --> UC001
+    A12 --> UC040
+    A13 --> UC001
+    A13 --> UC020
+    A17 --> UC130
+    A19 --> UC100
+    A25 --> T1
+    A26 --> T2
+
+    UC001 --> T1
+    UC030 --> T1
+    UC040 --> T1
+    UC060 --> T1
+    UC100 --> T1
+    UC130 --> T1
+
+    T1 --> T3
+    T2 --> T3
+    T3 --> T4
+    T4 --> T5
+
+    style A25 fill:#e74c3c,color:#fff
+    style A26 fill:#e74c3c,color:#fff
+    style UC999 fill:#c0392b,color:#fff
+    style T4 fill:#2ecc71,color:#fff
+    style T5 fill:#8e44ad,color:#fff

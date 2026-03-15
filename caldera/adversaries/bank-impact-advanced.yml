@@ -1,0 +1,32 @@
+---
+
+id: b4nk-1mp4-0080-bbbb-000000000080
+name: Bank-Impact-Advanced
+description: 'Advanced impact simulation for banking business continuity testing.
+
+  Covers: Service stop, inhibit recovery, ransomware simulation,
+
+  resource hijacking, defacement, data destruction, system shutdown.
+
+  MITRE ATT&CK: T1485-T1561. DORA Art.25 - Tests BC/DR capabilities.'
+atomic_ordering:
+- 153905affadb36241ced3d3b12ba0481
+- 8467c994685ccf178db166964bd80fab
+- 409acf7907007b041753a5f452b3df9b
+- 9e5e4c0655fd1b5be88bd40b8251175f
+- 8af540e33bedd20ad6122751d2c996a2
+- 9a39f75e-215d-4ef5-b505-ce81be74d58f
+- 46da2385-cf37-49cb-ba4b-a739c7a19de4
+- 3f878fc6-d5b0-4c95-b022-88f0becbb61e
+- 5a9a7d8b4f632652c3ed175c071c5c7a
+- 181f29896a4bafb4f874ea133359147d
+- e90756bb6dcd21462dc4cc452661df91
+- 55f9600a-756f-496b-b27f-682052dc429c
+- 180eb3b8-1590-4b77-9b8c-7972c198f09e
+- 68235976-2404-42a8-9105-68230cfef562
+- 2fe2d5e6-7b06-4fc0-bf71-6966a1226731
+- 47d08617-5ce1-424a-8cc5-c9c978ce6bf9
+- f7e779369b3f0cff24152d7dd94eca98
+- 8429e707230a826e7213a51acd219a51
+- 3f71c3360964b1a8c81618eb963c05f9
+- f820b93d-6176-4a72-a138-a70b0b549c49

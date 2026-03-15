@@ -1,0 +1,5 @@
+# Caldera Bank Purple Team - Scheduled Test Execution (3x taeglich)
+# Installation: crontab /opt/caldera-splunk/caldera-cron
+0 2 * * * /opt/caldera-splunk/scheduled-test-runner.sh >> /var/log/caldera-splunk/cron.log 2>&1
+0 10 * * * /opt/caldera-splunk/scheduled-test-runner.sh >> /var/log/caldera-splunk/cron.log 2>&1
+0 18 * * * /opt/caldera-splunk/scheduled-test-runner.sh >> /var/log/caldera-splunk/cron.log 2>&1

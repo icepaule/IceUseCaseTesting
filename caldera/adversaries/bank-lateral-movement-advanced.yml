@@ -1,0 +1,27 @@
+---
+
+id: b4nk-l4t2-0030-cccc-000000000030
+name: Bank-Lateral-Movement-Advanced
+description: 'Advanced lateral movement simulation for banking networks.
+
+  Covers: PsExec, WMI, WinRM, RDP, SMB, DCOM, Pass-the-Hash,
+
+  Pass-the-Ticket, remote file copy, remote service creation.
+
+  MITRE ATT&CK: T1021, T1550, T1563, T1570. DORA Art.25 - Tests network segmentation.'
+atomic_ordering:
+- 4908fdc4-74fc-4d7c-8935-26d11ad26a8d
+- 3734aa1e-c536-42b3-8912-4c91b8bdce90
+- 96d3c175-5e58-424c-8350-d7514b28a075
+- 22881b9d-0efa-4ef4-9704-df0f11170cc3
+- 41bb2b7a-75af-49fd-bd15-6c827df25921
+- acecc8f7-18c2-41fd-87bc-39ffd644e4e9
+- 824d5eda-7743-4c10-89d8-143d4bc50eda
+- b4018de2-bb0c-493e-8fe3-5f355831012f
+- 5458332f329c896a133982a7df20d358
+- aa6ec4dd-db09-4925-b9b9-43adeb154686
+- 40161ad0-75bd-11e9-b475-0800200c9a66
+- 4b1748e5-532c-453c-b195-557ce5550fef
+- bddc0abc-07a0-41b7-813f-e0c64d9226b3
+- 00446217-53ca-4749-bacd-f41fe189d36e
+- b82639f7-530b-4ff5-baa8-ff249cd73df4

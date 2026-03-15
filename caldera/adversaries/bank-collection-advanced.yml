@@ -1,0 +1,37 @@
+---
+
+id: b4nk-c0ll-0090-cccc-000000000090
+name: Bank-Collection-Advanced
+description: 'Advanced collection simulation for banking data protection testing.
+
+  Covers: Data from local system, network shares, clipboard, keylogging,
+
+  screen capture, email collection, input capture, automated collection.
+
+  MITRE ATT&CK: T1005-T1560. DORA Art.25 - Tests data access controls.'
+atomic_ordering:
+- 10fad81e-3f68-47be-83b6-fbee7711c6a9
+- 30a8cf10-73dc-497c-8261-a64cc9e91505
+- 160a1e0f-0f9b-49bb-a0fe-7e362b51737f
+- 1f7ff232-ebf8-42bf-a3c4-657855794cfe
+- 9ec26b39-9d77-4a3d-b309-8c819a2f59e7
+- f87e0022-4c82-447f-a0d2-52b2be030b6d
+- 21363f92027047ce1dbfdd47f7a483b5
+- 316251ed-6a28-4013-812b-ddf5b5b007f8
+- d3383e5caa773a806b523071c78aa875
+- fc231955-774f-442c-ac0e-e74dfda50c5c
+- b4fa6d2e-ed9c-4a86-81aa-19331983fe0d
+- 453cb643-892b-475d-8db9-df61289749f1
+- 0b1841bd-ef8b-475c-bce7-8fcb2860984a
+- 4e97e699-93d7-4040-b5a3-2e906a58199e
+- b007fe0c-c6b0-4fda-915c-255bbc070de2
+- 6469befa-748a-4b9c-a96d-f191fde47d89
+- 8495696b0a75577de442ba54bef343c1
+- 5692da31-3586-4e4f-8f07-5750070c730b
+- ee4c2eab-be57-434c-a32c-14b77360301a
+- b1dcc53a-c86c-46ba-8a3d-e1da74a8db3c
+- 5a5c65c7-d0ff-4275-8f8e-ea0b617369bd
+- 8b2f52d8-40d8-4f70-bf9e-cb999d325958
+- 5f3f7045-ae92-4a3e-8b39-35e4f8cc3038
+- e8553d5d1077db444ab2bf2938b5fc5b
+- 1a9e352f-4edb-480d-b29c-66acb6c4df19

@@ -1,0 +1,42 @@
+---
+
+id: b4nk-d1sc-0020-bbbb-000000000020
+name: Bank-Discovery-Recon-Advanced
+description: 'Comprehensive discovery and reconnaissance simulation for banking.
+
+  Covers: BloodHound/SharpHound, system enumeration, AD discovery,
+
+  network scanning, process discovery, domain trust discovery.
+
+  MITRE ATT&CK: T1010-T1518. DORA Art.25 - TIBER-EU Recon Phase.'
+atomic_ordering:
+- ee41528024c63881b53302e996a79020
+- 4b325a29e936cd1ccac2292bc92a31b5
+- 608e19b5f7e210ba73e207289e5a1314
+- 364ea817-bbb9-4083-87dd-94b9dba45f6f
+- 32dd2b5f-5798-4c05-9d65-ee1e2d494cee
+- c7ec57cd-933e-42b6-99a4-e852a9e57a33
+- 2afae782-6d0a-4fbd-a6b6-d1ce90090eac
+- a2946687ae1138d23b0dc040e43d0eb5
+- 4712f45e41760276d20885bbc885a2ef
+- 53571e9988b92014f9d71888936d3878
+- c84a57391dbc724dc51436deb3e0ca00
+- feb9647c55185e3b6045293fd26f6a5b
+- ff659febed01ef020792aa5f83d08d6d
+- 1c8552c7-f7ed-4523-b640-72d65af5f855
+- 29c018ed-eb3e-4ddb-90ec-ba3d928a00e8
+- 24ed020e-4730-4000-b6b4-6b5d3e95314f
+- 59592c35-8207-4896-8d8b-36ad4600245d
+- ac9dce33-2acc-4b34-94ce-2596409ce8f0
+- d65c4ebfab4fcd52f49e10ab1d6b4d2d
+- f1cf4ea1-43f0-4604-9537-3d1b1b2d5b1c
+- 7a87eec9166dd9d24825a4af7bb3bc47
+- ba0b398d-91b8-490a-bed2-f959afa8e1aa
+- a2f4981aa23614831c5b01d89283b7e6
+- 0cfadbcb-ec21-44ae-adb7-9a23176dd620
+- c0da588f-79f0-4263-8998-7496b1a40596
+- d2ea2676-7f85-4228-b980-ab3c0e1adc03
+- 64f1fcb4-399d-4f3b-9a6b-13ec00e1c2ce
+- 27083aa1-9a0d-4fe4-9154-fa6f0598e2f9
+- 87d3322b-a435-47b5-9f97-a8db4f86dad5
+- 5c279562-a004-4d9c-9ec6-a7dc4997f699

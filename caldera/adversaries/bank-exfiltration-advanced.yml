@@ -1,0 +1,32 @@
+---
+
+id: b4nk-3xf2-0070-aaaa-000000000070
+name: Bank-Exfiltration-Advanced
+description: 'Advanced exfiltration simulation for banking DLP testing.
+
+  Covers: Data staged, compressed, exfiltration over C2, alternate protocols,
+
+  scheduled transfer, cloud storage, web service exfiltration.
+
+  MITRE ATT&CK: T1020-T1567. DORA Art.25 - Tests DLP controls.'
+atomic_ordering:
+- 3ce95a28-25fc-4a7e-a0cd-0fdb190e2081
+- d754878c-17dd-46dc-891c-a993f8a10336
+- 0582dc26-e0cf-4645-88cf-f37a02279976
+- 4a1120a5-971c-457f-bb07-60641b4723fd
+- ba0deadb-97ac-4a4c-aa81-21912fc90980
+- 5c5b0392-1daa-45e1-967c-2f361ce78849
+- e7bf5dc7-62e4-48b2-acf8-abaf8734c19c
+- 18cdfc3c0c8befaf6016ec5889cba0f1
+- a612311d-a802-48da-bb7f-88a4b9dd7a24
+- ea713bc4-63f0-491c-9a6f-0b01d560b87e
+- 110cea7a-5b03-4443-92ee-7ccefaead451
+- 021245dd-c0be-4900-bd6c-1c680f00a237
+- 300157e5-f4ad-4569-b533-9d1fa0e74d74
+- ea4bc858-ba13-4f97-9df3-c543d8f3d44c
+- 89b84389-036e-4c3d-a490-bf8ba50bffe8
+- 305c23215a4bf6184ed701b5ca1d1af7
+- 4840d6dd-da13-401a-be46-05db56f4e1e0
+- 2f90d4de-2612-4468-9251-b220e3727452
+- e74554b8-0bc9-3d50-95a4-e45421925b49
+- 885c14a2-bc56-4176-8671-4cb25489ae39

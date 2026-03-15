@@ -8,9 +8,9 @@ set -euo pipefail
 
 # --- Konfiguration ---
 CALDERA_API="${CALDERA_API:-http://localhost:8888/api/v2}"
-CALDERA_API_KEY="${CALDERA_API_KEY:-DEIN_API_KEY_HIER}"
-SPLUNK_HEC="${SPLUNK_HEC:-http://SPLUNK_IP:8088/services/collector/event}"
-SPLUNK_TOKEN="${SPLUNK_TOKEN:-DEIN_HEC_TOKEN_HIER}"
+CALDERA_API_KEY="${CALDERA_API_KEY:-<API_KEY>}"
+SPLUNK_HEC="${SPLUNK_HEC:-http://<SPLUNK_HOST>:8088/services/collector/event}"
+SPLUNK_TOKEN="${SPLUNK_TOKEN:-<HEC_TOKEN>}"
 SPLUNK_INDEX="caldera"
 LOOKUP_FILE="/opt/caldera-splunk/lookups/mitre_attack_bank_mapping.csv"
 LOG_DIR="/var/log/caldera-splunk"

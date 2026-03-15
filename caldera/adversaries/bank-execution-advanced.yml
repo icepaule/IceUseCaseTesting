@@ -1,0 +1,37 @@
+---
+
+id: b4nk-3x3c-0060-ffff-000000000060
+name: Bank-Execution-Advanced
+description: 'Advanced execution technique simulation for banking environments.
+
+  Covers: PowerShell, WMI, MSHTA, Rundll32, Regsvr32, Certutil,
+
+  Bitsadmin, scripting interpreters, service execution.
+
+  MITRE ATT&CK: T1047-T1569. DORA Art.25 - Tests endpoint detection.'
+atomic_ordering:
+- ece5dde3-d370-4c20-b213-a1f424aa8d03
+- d56753da33c882128773634140c0efa5
+- 90c76bd616efee6d7c98dc6c1dcc6e99
+- a9df2530a06e1aa7d1ba9e9309364b9f
+- b7dbd4b15fb43757def1ccebfc02b350
+- 8911d502-747a-4155-adcd-b03a1f284ee7
+- 6aaf86c797e33b0ee3d16592be76f46e
+- bfff9006-d1fb-46ce-b173-92cb04e9a031
+- f2131e45dbd95e3057bd3494b5aeed41
+- e2e6f33cf77d10e3c82c244014da20c5
+- 9003977ffd2779fd5877d65f970af885
+- e506f811-884d-4992-aacb-514b33a0324f
+- 5dcbd042-e8e5-4f3f-8055-7284e4d5112c
+- bcea95e5-76a0-4774-b51d-cdf6b1fd9ce0
+- 2ca71106ee0aff2eda551bb6ed2b39e4
+- b262964145fa55e27265e7caa89b1169
+- f6d9c3fbee5549837ea37ff933291656
+- 95727b87-175c-4a69-8c7a-a5d82746a753
+- 571845f6-b75c-4b9d-a666-a78f7827261f
+- 954ee411-8443-41f9-9a0c-f8ac032b68e7
+- 44073aa3-70e9-4a48-86b7-c25b6f29c25c
+- 57771abd-0789-4dda-bb02-31359e6860db
+- c5bceb16-2f13-40a5-b460-9adb1d567b76
+- 09fc13b4-b345-41ce-b5a8-4214a37b627a
+- 0328ddeb-cc6b-4971-b695-771178b50ed7
